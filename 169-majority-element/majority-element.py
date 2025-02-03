@@ -1,10 +1,15 @@
 class Solution:
     def majorityElement(self, nums: List[int]) -> int:
-        dict1={}
-        for i in nums:
-            if i not in dict1:
-                dict1[i]=0
-            if i in dict1:
-                dict1[i]+=1
-            if dict1[i]>len(nums)//2:
-                return i
+        if len(nums) == 1:
+            return nums[0]
+
+        mid = len(nums) // 2
+        left_major = self.majorityElement(nums[:mid])
+        right_major = self.majorityElement(nums[mid:])
+
+        # Count occurrences of left_major and right_major in the full array
+        count = Counter(nums)
+
+        if count[left_major] > len(nums) // 2:
+            return left_major
+        return right_major
